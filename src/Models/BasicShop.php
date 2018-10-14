@@ -42,4 +42,33 @@ class BasicShop extends AbstractShop {
     {
         return $this->order;
     }
+
+    public function updateTransaction($tid, $args, $shippingConfirmed)
+    {
+        $fh = fopen(storage_path('app/Payments/')."payment-".$args['MPAYTID'].".txt", 'w') or die("can't open file");
+
+        $result = "TID : " . $tid . "\n\ntransaction arguments:\n\n";
+        foreach($args as $key => $value)
+            $result.= $key . " = " . $value . "\n";
+
+        fwrite($fh, $result);
+        fclose($fh);
+    }
+
+    public function getTransaction($tid)
+    {
+        $transaction = new Transaction($tid);
+        $transaction->PRICE = '150';
+        return $transaction;
+    }
+
+    public function createSecret($tid, $amount, $currency, $timeStamp)
+    {
+        return bcrypt($tid.$amount.$currency.$timeStamp);
+    }
+
+    public function getSecret($tid)
+    {
+        //
+    }
 }

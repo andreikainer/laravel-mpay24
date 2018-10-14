@@ -34,7 +34,7 @@ class LaravelMPay24ServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        $this->app->singleton('mpay24', function($this)
+        $this->app->singleton('mpay24', function()
         {
             return new Shop($this->merchantId, $this->password, $this->testMode, null, null, $this->debugMode);
         });

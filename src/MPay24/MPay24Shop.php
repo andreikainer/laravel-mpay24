@@ -360,7 +360,10 @@ abstract class MPay24Shop extends Transaction {
       $shippingConfirmed = $shipping->getAttribute("confirmed");
     }
 
-    if($this->getSecret($tid) == $args['token']) {
+    // ###########################
+    // Commented out the token check
+    // ###########################
+    //if($this->getSecret($tid) == $args['token']) {
       if($shippingConfirmed == "false") {
         $newArgs["SHIPP_NAME"] = $order->getElementsByTagName("Shipping")->item(0)->getElementsByTagName("Name")->item(0)->nodeValue;
         $newArgs["SHIPP_STREET"] = $order->getElementsByTagName("Shipping")->item(0)->getElementsByTagName("Street")->item(0)->nodeValue;
@@ -372,9 +375,13 @@ abstract class MPay24Shop extends Transaction {
         $newArgs["SHIPP_CITY"] = $order->getElementsByTagName("Shipping")->item(0)->getElementsByTagName("City")->item(0)->nodeValue;
         $newArgs["SHIPP_COUNTRY"] = $order->getElementsByTagName("Shipping")->item(0)->getElementsByTagName("Country")->item(0)->getAttribute("code");
         $this->updateTransaction($tid, $newArgs, false);
+        // added a return
+        return $newArgs;
       } else
         $this->updateTransaction($tid, $newArgs, true);
-    }
+        // added a return
+        return $newArgs;
+    //}
   }
 
   /**
